@@ -4,18 +4,18 @@ This is a small app written in Go (my first Go app) for reading code cheat sheet
 
 It expects the file `csheet.md` to be in the users home directory. Cheat sheets follow the following structuur:
 
-````markdown
+`````markdown
 # csheet
 
 ## subject
 
 ### section
 
-```
-Stuff to remember
-```
-
 ````
+Stuff to remember
+````
+
+`````
 
 Then retrieve it using this command:
 ````
