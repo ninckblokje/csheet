@@ -89,6 +89,10 @@ func readCode(r *bufio.Reader) []string {
 
 		if strings.HasPrefix(s, "````") {
 			readCode = !readCode
+
+			if !readCode {
+				break
+			}
 		} else if readCode {
 			code = append(code, s)
 		}
