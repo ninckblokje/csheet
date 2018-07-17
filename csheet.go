@@ -7,22 +7,30 @@ import (
 	"strings"
 	"fmt"
 	"os/user"
+	"flag"
 )
 
 var csheetFile string
 
 func main() {
-	args := os.Args
-
-	if len(args) != 3 {
-		fmt.Println("Usage: csheet [SUBJECT] [SECTION]")
+	if len(os.Args) < 3 {
+		fmt.Println("Usage: csheet { -f [FILE] } [SUBJECT] [SECTION]")
 		os.Exit(1)
 	}
 
-	csheetFile = getCSheetDir() + string(os.PathSeparator) + "csheet.md"
+	var fileArg = flag.String("f", "", "Cheat sheet Mardown file")
+	flag.Parse()
 
-	subject := args[1]
-	section := args[2]
+	if *fileArg == "" {
+		csheetFile = getCSheetDir() + string(os.PathSeparator) + "csheet.md"
+	} else {
+		csheetFile = *fileArg
+	}
+
+	args := flag.Args()
+
+	subject := args[0]
+	section := args[1]
 
 	readEntry(subject, section)
 }
@@ -73,6 +81,8 @@ func openFile() (fp *os.File) {
 		if err != nil {
 			panic(err)
 		}
+
+		writeHeader(fp, "# csheet")
 		return fp
 	} else {
 		panic(err)
@@ -127,4 +137,12 @@ func readLine(r *bufio.Reader) *string {
 	}
 
 	return nil
+}
+
+func writeHeader(fp *os.File, header string) {
+	w := bufio.NewWriter(fp)
+
+	fmt.Fprintln(w, header)
+
+	w.Flush()
 }
