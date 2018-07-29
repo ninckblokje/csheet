@@ -11,6 +11,7 @@ import (
 )
 
 var csheetFile string
+var csheetRevision = "DEV-BUILD"
 var csheetVersion = "DEV-BUILD"
 
 func main() {
@@ -145,7 +146,7 @@ func printUsage() {
 }
 
 func printVersion() {
-	fmt.Printf("csheet version %s", csheetVersion)
+	fmt.Printf("csheet version %s, revision %s", csheetVersion, csheetRevision)
 	fmt.Println("")
 	fmt.Println("See: https://github.com/ninckblokje/csheet")
 }

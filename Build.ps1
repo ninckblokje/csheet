@@ -1,2 +1,3 @@
 $ShortRevision = git rev-parse --short HEAD
-go build -ldflags "-X main.csheetVersion=$ShortRevision" csheet.go
+$Tag = git describe --tags
+go build -ldflags "-X main.csheetVersion=$Tag -X main.csheetRevision=$ShortRevision" csheet.go
