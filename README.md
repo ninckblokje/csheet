@@ -30,3 +30,11 @@ Or specify the file manually:
 $ csheet -f csheet.md subject section
 Stuff to remember
 ````
+
+To get all the subjects and sections, use `-l` (or combined with `-f`):
+````
+$ csheet -l
+subject section
+````
+
+To get the version use `-v`.

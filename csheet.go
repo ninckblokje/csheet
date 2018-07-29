@@ -15,12 +15,13 @@ var csheetVersion = "DEV-BUILD"
 
 func main() {
 	var fileArg = flag.String("f", "", "Cheat sheet Mardown file")
+	var listArg = flag.Bool("l", false, "Show all possible entries")
 	var versionArg = flag.Bool("v", false, "Display version")
 
 	flag.Parse()
 
 	args := flag.Args()
-	validateArgs(fileArg, versionArg, args)
+	validateArgs(fileArg, listArg, versionArg, args)
 
 	if *fileArg == "" {
 		csheetFile = getCSheetDir() + string(os.PathSeparator) + "csheet.md"
@@ -30,21 +31,45 @@ func main() {
 
 	if *versionArg {
 		printVersion()
+	} else if *listArg {
+		printEntries()
 	} else {
 		subject := args[0]
 		section := args[1]
 
-		readEntry(subject, section)
+		printEntry(subject, section)
 	}
 }
 
-func find(fp *os.File, subject string, section string) []string {
+func findEntry(fp *os.File, subject string, section string) []string {
 	r := bufio.NewReaderSize(fp, 4*1024)
 	if findHeader(r, "## " + subject) && findHeader(r, "### " + section) {
 		return readCode(r)
 	}
 
 	return nil
+}
+
+func findEntries(fp *os.File) []string {
+	var entries []string
+	var subject *string
+
+	r := bufio.NewReaderSize(fp, 4*1024)
+	line := readLine(r)
+	for line != nil {
+		s := *line
+
+		if strings.HasPrefix(s, "## ") {
+			tmp := strings.TrimPrefix(s, "## ")
+			subject = &tmp
+		} else if strings.HasPrefix(s, "### ") && subject != nil {
+			entries = append(entries, *subject + " " + strings.TrimPrefix(s, "### "))
+		}
+
+		line = readLine(r)
+	}
+
+	return entries
 }
 
 func findHeader(r *bufio.Reader, header string) bool {
@@ -92,6 +117,26 @@ func openFile() (fp *os.File) {
 	}
 }
 
+func printEntry(subject string, section string) {
+	fp := openFile()
+	defer fp.Close()
+
+	code := findEntry(fp, subject, section)
+	for i := 0; i< len(code); i++ {
+		fmt.Println(code[i])
+	}
+}
+
+func printEntries() {
+	fp := openFile()
+	defer fp.Close()
+
+	entries := findEntries(fp)
+	for i := 0; i< len(entries); i++ {
+		fmt.Println(entries[i])
+	}
+}
+
 func printUsage() {
 	fmt.Println("Usage: csheet { OPTIONS } [SUBJECT] [SECTION]")
 	fmt.Println("Options:")
@@ -129,16 +174,6 @@ func readCode(r *bufio.Reader) []string {
 	return code
 }
 
-func readEntry(subject string, section string) {
-	fp := openFile()
-	defer fp.Close()
-
-	code := find(fp, subject, section)
-	for i := 0; i< len(code); i++ {
-		fmt.Println(code[i])
-	}
-}
-
 func readLine(r *bufio.Reader) *string {
 	line, isPrefix, err := r.ReadLine()
 	if isPrefix {
@@ -155,14 +190,17 @@ func readLine(r *bufio.Reader) *string {
 	return nil
 }
 
-func validateArgs(fileArgs *string, versionArg *bool, args []string) {
+func validateArgs(fileArg *string, listArg *bool, versionArg *bool, args []string) {
 	if *versionArg {
+		// ok
+		return
+	} else if *listArg {
 		// ok
 		return
 	} else if len(args) == 2 {
 		// ok
 		return
-	} else {
+	}else {
 		printUsage()
 		os.Exit(1)
 	}
