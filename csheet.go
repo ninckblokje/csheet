@@ -11,15 +11,16 @@ import (
 )
 
 var csheetFile string
+var csheetVersion = "DEV-BUILD"
 
 func main() {
-	if len(os.Args) < 3 {
-		fmt.Println("Usage: csheet { -f [FILE] } [SUBJECT] [SECTION]")
-		os.Exit(1)
-	}
-
 	var fileArg = flag.String("f", "", "Cheat sheet Mardown file")
+	var versionArg = flag.Bool("v", false, "Display version")
+
 	flag.Parse()
+
+	args := flag.Args()
+	validateArgs(fileArg, versionArg, args)
 
 	if *fileArg == "" {
 		csheetFile = getCSheetDir() + string(os.PathSeparator) + "csheet.md"
@@ -27,12 +28,14 @@ func main() {
 		csheetFile = *fileArg
 	}
 
-	args := flag.Args()
+	if *versionArg {
+		printVersion()
+	} else {
+		subject := args[0]
+		section := args[1]
 
-	subject := args[0]
-	section := args[1]
-
-	readEntry(subject, section)
+		readEntry(subject, section)
+	}
 }
 
 func find(fp *os.File, subject string, section string) []string {
@@ -89,6 +92,19 @@ func openFile() (fp *os.File) {
 	}
 }
 
+func printUsage() {
+	fmt.Println("Usage: csheet { OPTIONS } [SUBJECT] [SECTION]")
+	fmt.Println("Options:")
+	fmt.Println("-f [FILE] : Specifies the Markdown file to read")
+	fmt.Println("-v        : Shows the versions")
+}
+
+func printVersion() {
+	fmt.Printf("csheet version %s", csheetVersion)
+	fmt.Println("")
+	fmt.Println("See: https://github.com/ninckblokje/csheet")
+}
+
 func readCode(r *bufio.Reader) []string {
 	var code []string
 	var readCode = false
@@ -137,6 +153,19 @@ func readLine(r *bufio.Reader) *string {
 	}
 
 	return nil
+}
+
+func validateArgs(fileArgs *string, versionArg *bool, args []string) {
+	if *versionArg {
+		// ok
+		return
+	} else if len(args) == 2 {
+		// ok
+		return
+	} else {
+		printUsage()
+		os.Exit(1)
+	}
 }
 
 func writeHeader(fp *os.File, header string) {
