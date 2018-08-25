@@ -37,4 +37,4 @@ $ csheet -l
 subject section
 ````
 
-To get the version use `-v`.
+Optionally the results can be copied to the clipboard by using `-c`. To get the version use `-v`.

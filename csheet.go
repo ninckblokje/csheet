@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"os/user"
 	"flag"
+	"github.com/atotto/clipboard"
 )
 
 var csheetFile string
@@ -15,6 +16,7 @@ var csheetRevision = "DEV-BUILD"
 var csheetVersion = "DEV-BUILD"
 
 func main() {
+	var clipboardArg = flag.Bool("c", false, "Copy result to clipboard")
 	var fileArg = flag.String("f", "", "Cheat sheet Mardown file")
 	var listArg = flag.Bool("l", false, "Show all possible entries")
 	var versionArg = flag.Bool("v", false, "Display version")
@@ -33,12 +35,12 @@ func main() {
 	if *versionArg {
 		printVersion()
 	} else if *listArg {
-		printEntries()
+		printEntries(*clipboardArg)
 	} else {
 		subject := args[0]
 		section := args[1]
 
-		printEntry(subject, section)
+		printEntry(subject, section, *clipboardArg)
 	}
 }
 
@@ -118,7 +120,7 @@ func openFile() (fp *os.File) {
 	}
 }
 
-func printEntry(subject string, section string) {
+func printEntry(subject string, section string, copyToClipboard bool) {
 	fp := openFile()
 	defer fp.Close()
 
@@ -126,9 +128,14 @@ func printEntry(subject string, section string) {
 	for i := 0; i< len(code); i++ {
 		fmt.Println(code[i])
 	}
+
+	if copyToClipboard {
+		clipboardEntries := strings.Join(code, "\n")
+		clipboard.WriteAll(clipboardEntries)
+	}
 }
 
-func printEntries() {
+func printEntries(copyToClipboard bool) {
 	fp := openFile()
 	defer fp.Close()
 
@@ -136,12 +143,19 @@ func printEntries() {
 	for i := 0; i< len(entries); i++ {
 		fmt.Println(entries[i])
 	}
+
+	if copyToClipboard {
+		clipboardEntries := strings.Join(entries, "\n")
+		clipboard.WriteAll(clipboardEntries)
+	}
 }
 
 func printUsage() {
 	fmt.Println("Usage: csheet { OPTIONS } [SUBJECT] [SECTION]")
 	fmt.Println("Options:")
+	fmt.Println("-c        : Copy result to clipboard")
 	fmt.Println("-f [FILE] : Specifies the Markdown file to read")
+	fmt.Println("-l        : Show all possible entries")
 	fmt.Println("-v        : Shows the versions")
 }
 
