@@ -1,14 +1,15 @@
 package main
 
 import (
-	"os"
 	"bufio"
-	"io"
-	"strings"
-	"fmt"
-	"os/user"
 	"flag"
+	"fmt"
 	"github.com/atotto/clipboard"
+	"io"
+	"os"
+	"os/exec"
+	"os/user"
+	"strings"
 )
 
 var csheetFile string
@@ -17,6 +18,7 @@ var csheetVersion = "DEV-BUILD"
 
 func main() {
 	var clipboardArg = flag.Bool("c", false, "Copy result to clipboard")
+	var editorArg = flag.Bool("e", false, "Open editor using $EDITOR")
 	var fileArg = flag.String("f", "", "Cheat sheet Mardown file")
 	var listArg = flag.Bool("l", false, "Show all possible entries")
 	var versionArg = flag.Bool("v", false, "Display version")
@@ -24,7 +26,7 @@ func main() {
 	flag.Parse()
 
 	args := flag.Args()
-	validateArgs(fileArg, listArg, versionArg, args)
+	validateArgs(editorArg, fileArg, listArg, versionArg, args)
 
 	if *fileArg == "" {
 		csheetFile = getCSheetDir() + string(os.PathSeparator) + "csheet.md"
@@ -34,6 +36,8 @@ func main() {
 
 	if *versionArg {
 		printVersion()
+	} else if *editorArg {
+		openEditor()
 	} else if *listArg {
 		printEntries(*clipboardArg)
 	} else {
@@ -99,6 +103,19 @@ func getCSheetDir() string {
 	return usr.HomeDir
 }
 
+func openEditor() {
+	var editor = os.Getenv("EDITOR")
+	if editor == "" {
+		panic("$EDITOR is not defined")
+	}
+
+	cmd := exec.Command(editor, csheetFile)
+	err := cmd.Run()
+	if err != nil {
+		panic(err)
+	}
+}
+
 func openFile() (fp *os.File) {
 	_, err := os.Stat(csheetFile)
 	if err == nil {
@@ -154,6 +171,7 @@ func printUsage() {
 	fmt.Println("Usage: csheet { OPTIONS } [SUBJECT] [SECTION]")
 	fmt.Println("Options:")
 	fmt.Println("-c        : Copy result to clipboard")
+	fmt.Println("-e        : Open editor using $EDITOR")
 	fmt.Println("-f [FILE] : Specifies the Markdown file to read")
 	fmt.Println("-l        : Show all possible entries")
 	fmt.Println("-v        : Shows the versions")
@@ -205,8 +223,11 @@ func readLine(r *bufio.Reader) *string {
 	return nil
 }
 
-func validateArgs(fileArg *string, listArg *bool, versionArg *bool, args []string) {
+func validateArgs(editorArg *bool, fileArg *string, listArg *bool, versionArg *bool, args []string) {
 	if *versionArg {
+		// ok
+		return
+	} else if *editorArg && os.Getenv("EDITOR") != "" {
 		// ok
 		return
 	} else if *listArg {
