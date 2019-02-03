@@ -4,4 +4,6 @@
 *.iws
 
 ## Go
-*.exe
+bin/
+csheet.exe
+csheet

@@ -1,0 +1,20 @@
+PLATFORMS = linux/amd64/ windows/amd64/.exe
+
+GIT_SHORT_REV := $(shell git rev-parse --short HEAD)
+GIT_TAG := $(shell git describe --tags)
+
+clean:
+	rm -r bin/
+
+build:
+	go build csheet.go
+
+release: clean $(PLATFORMS)
+
+temp = $(subst /, ,$@)
+os = $(word 1, $(temp))
+arch = $(word 2, $(temp))
+ext = $(word 3, $(temp))
+
+$(PLATFORMS):
+	GOARCH=$(arch) GOOS=$(os) go build -ldflags "-X main.csheetVersion=$(GIT_TAG) -X main.csheetRevision=$(GIT_SHORT_REV)" -o bin/$(os)_$(arch)/csheet$(ext) csheet.go
