@@ -57,6 +57,12 @@ $ csheet -c subject section
 Stuff to remember
 ````
 
+Or combined with `-q` output can be suppressed on the command line.
+
+````
+$ csheet -q -c subject section
+````
+
 The version can be printed using -v:
 
 ````
@@ -75,7 +81,8 @@ Usage of csheet:
   -f string
         Cheat sheet Mardown file
   -l    Show all possible entries
+  -q    No output
   -v    Display version
 ````
 
-The options `f` can be combined with both `-e` or `-c`.
+The options `f` can be combined with `-e`, `-q` or `-c`.
