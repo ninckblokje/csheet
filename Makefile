@@ -3,8 +3,14 @@ PLATFORMS = linux/amd64/ windows/amd64/.exe
 GIT_SHORT_REV := $(shell git rev-parse --short HEAD)
 GIT_TAG := $(shell git describe --tags)
 
+ifeq ($(OS),Windows_NT)
+	RM_CMD := cmd.exe /c 'if exist "bin" rmdir /S /Q "bin"'
+else
+	RM_CMD := rm -rf bin/
+endif
+
 clean:
-	rm -r bin/
+	$(RM_CMD)
 
 build:
 	go build csheet.go
