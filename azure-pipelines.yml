@@ -1,5 +1,8 @@
 trigger:
-- master
+  batch: true
+  branches:
+    include:
+    - release
 
 pool:
   vmImage: 'Ubuntu-16.04'
@@ -8,3 +11,12 @@ steps:
 - script: |
     make release
   displayName: 'Building release'
+
+- task: GitHubRelease@0
+  inputs:
+    gitHubConnection: ninckblokje
+    repositoryName: csheet
+    action: create
+    tagSource: auto
+    assets: $(Build.ArtifactStagingDirectory)/**/*
+    releaseNotesFile: CHANGELOG.md
