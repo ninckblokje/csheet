@@ -11,11 +11,23 @@ steps:
     make release
   displayName: 'Building release'
 
+- task: CopyFiles@2
+  inputs:
+    sourceFolder: '$(Build.SourcesDirectory)'
+    contents: 'bin/**/*'
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: csheet
+
 - task: GitHubRelease@0
   inputs:
     gitHubConnection: ninckblokje
     repositoryName: ninckblokje/csheet
     action: create
     tagSource: auto
-    assets: $(Build.ArtifactStagingDirectory)/**/*
     releaseNotesFile: CHANGELOG.md
+    isDraft: true
+    addChangeLog: false
