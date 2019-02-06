@@ -29,5 +29,6 @@ steps:
     action: create
     tagSource: auto
     releaseNotesFile: CHANGELOG.md
+    assets: '$(Build.ArtifactStagingDirectory)/*'
     isDraft: true
     addChangeLog: false
