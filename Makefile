@@ -15,7 +15,10 @@ clean:
 build:
 	go build csheet.go
 
-release: clean $(PLATFORMS)
+dependencies:
+	go get -d
+
+release: clean dependencies $(PLATFORMS)
 
 temp = $(subst /, ,$@)
 os = $(word 1, $(temp))
