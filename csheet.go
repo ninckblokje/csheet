@@ -4,12 +4,13 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"github.com/atotto/clipboard"
 	"io"
 	"os"
 	"os/exec"
 	"os/user"
 	"strings"
+
+	"github.com/atotto/clipboard"
 )
 
 var csheetFile string
@@ -21,6 +22,7 @@ func main() {
 	var editorArg = flag.Bool("e", false, "Open editor using $EDITOR")
 	var fileArg = flag.String("f", "", "Cheat sheet Mardown file")
 	var listArg = flag.Bool("l", false, "Show all possible entries")
+	var quietArg = flag.Bool("q", false, "No output")
 	var versionArg = flag.Bool("v", false, "Display version")
 
 	flag.Parse()
@@ -39,18 +41,18 @@ func main() {
 	} else if *editorArg {
 		openEditor()
 	} else if *listArg {
-		printEntries(*clipboardArg)
+		printEntries(*clipboardArg, *quietArg)
 	} else {
 		subject := args[0]
 		section := args[1]
 
-		printEntry(subject, section, *clipboardArg)
+		printEntry(subject, section, *clipboardArg, *quietArg)
 	}
 }
 
 func findEntry(fp *os.File, subject string, section string) []string {
 	r := bufio.NewReaderSize(fp, 4*1024)
-	if findHeader(r, "## " + subject) && findHeader(r, "### " + section) {
+	if findHeader(r, "## "+subject) && findHeader(r, "### "+section) {
 		return readCode(r)
 	}
 
@@ -70,7 +72,7 @@ func findEntries(fp *os.File) []string {
 			tmp := strings.TrimPrefix(s, "## ")
 			subject = &tmp
 		} else if strings.HasPrefix(s, "### ") && subject != nil {
-			entries = append(entries, *subject + " " + strings.TrimPrefix(s, "### "))
+			entries = append(entries, *subject+" "+strings.TrimPrefix(s, "### "))
 		}
 
 		line = readLine(r)
@@ -137,13 +139,16 @@ func openFile() (fp *os.File) {
 	}
 }
 
-func printEntry(subject string, section string, copyToClipboard bool) {
+func printEntry(subject string, section string, copyToClipboard bool, quiet bool) {
 	fp := openFile()
 	defer fp.Close()
 
 	code := findEntry(fp, subject, section)
-	for i := 0; i< len(code); i++ {
-		fmt.Println(code[i])
+
+	if !quiet {
+		for i := 0; i < len(code); i++ {
+			fmt.Println(code[i])
+		}
 	}
 
 	if copyToClipboard {
@@ -152,13 +157,16 @@ func printEntry(subject string, section string, copyToClipboard bool) {
 	}
 }
 
-func printEntries(copyToClipboard bool) {
+func printEntries(copyToClipboard bool, quiet bool) {
 	fp := openFile()
 	defer fp.Close()
 
 	entries := findEntries(fp)
-	for i := 0; i< len(entries); i++ {
-		fmt.Println(entries[i])
+
+	if !quiet {
+		for i := 0; i < len(entries); i++ {
+			fmt.Println(entries[i])
+		}
 	}
 
 	if copyToClipboard {
@@ -174,6 +182,7 @@ func printUsage() {
 	fmt.Println("-e        : Open editor using $EDITOR")
 	fmt.Println("-f [FILE] : Specifies the Markdown file to read")
 	fmt.Println("-l        : Show all possible entries")
+	fmt.Println("-q        : No output")
 	fmt.Println("-v        : Shows the versions")
 }
 
@@ -236,7 +245,7 @@ func validateArgs(editorArg *bool, fileArg *string, listArg *bool, versionArg *b
 	} else if len(args) == 2 {
 		// ok
 		return
-	}else {
+	} else {
 		printUsage()
 		os.Exit(1)
 	}
