@@ -1,8 +1,6 @@
 trigger:
-  batch: true
-  branches:
-    include:
-    - release
+  -release
+
 pr: none
 
 pool:
@@ -16,7 +14,7 @@ steps:
 - task: GitHubRelease@0
   inputs:
     gitHubConnection: ninckblokje
-    repositoryName: csheet
+    repositoryName: ninckblokje/csheet
     action: create
     tagSource: auto
     assets: $(Build.ArtifactStagingDirectory)/**/*
