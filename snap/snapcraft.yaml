@@ -1,0 +1,20 @@
+name: csheet
+version: git
+summary: Markdown cheat sheet
+description: |
+  Command line tool written in Go for printing cheat sheets from a Markdown document.
+confinement: devmode
+base: core18
+
+parts:
+  csheet:
+    plugin: go
+    go-channel: stable
+    source: .
+    source-type: git
+    build-packages:
+      - gcc
+
+apps:
+  csheet:
+    command: bin/project
