@@ -1,0 +1,6 @@
+Package: csheet
+Version: GIT_TAG
+Architecture: amd64
+Maintainer: ninckblokje <changejnb at gmail dot com>
+Description: Command line tool written in Go for printing cheat sheets from a Markdown document
+
