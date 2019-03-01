@@ -8,7 +8,7 @@ pool:
 
 steps:
 - script: |
-    make release
+    make release release-debian
   displayName: 'Building release'
 
 - task: CopyFiles@2
