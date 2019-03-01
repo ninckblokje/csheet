@@ -13,7 +13,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    sourceFolder: '$(strings.HasPrefix(s, header)Build.SourcesDirectory)'
+    sourceFolder: '$(Build.SourcesDirectory)'
     contents: 'bin/*/*'
     targetFolder: '$(Build.ArtifactStagingDirectory)'
 
