@@ -52,7 +52,8 @@ func main() {
 
 func findEntry(fp *os.File, subject string, section string) []string {
 	r := bufio.NewReaderSize(fp, 4*1024)
-	if findHeader(r, "## "+subject) && findHeader(r, "### "+section) {
+	demarcation := "## "
+	if findHeader(r, "## "+subject, nil) && findHeader(r, "### "+section, &demarcation) {
 		return readCode(r)
 	}
 
@@ -81,13 +82,15 @@ func findEntries(fp *os.File) []string {
 	return entries
 }
 
-func findHeader(r *bufio.Reader, header string) bool {
+func findHeader(r *bufio.Reader, header string, demarcation *string) bool {
 	line := readLine(r)
 	for line != nil {
 		s := *line
 
-		if strings.HasPrefix(s, header) {
+		if s == header {
 			return true
+		} else if demarcation != nil && strings.HasPrefix(s, *demarcation) {
+			return false
 		}
 
 		line = readLine(r)
