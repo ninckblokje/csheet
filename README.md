@@ -50,7 +50,7 @@ $ csheet -f csheet.md subject section
 Stuff to remember
 ````
 
-Results can be copied directory to the clipboard using `-c`:
+Results can be copied directory to the clipboard using `-c` (install `xclip` for this to work):
 
 ````
 $ csheet -c subject section

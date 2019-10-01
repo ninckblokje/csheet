@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.7 - 2019-10-01
+
+### Added
+
+### Changed
+
+- `xclip` is a dependency of the Debian package
+- Switched to Go modules
+- Fixed editor which requires tty
+- Added FreeBSD build
+
+### Removed
+
 ## 1.6 - 2019-03-01
 
 ### Added
