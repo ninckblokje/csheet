@@ -29,6 +29,8 @@ steps:
     action: create
     tagSource: auto
     releaseNotesFile: CHANGELOG.md
-    assets: '$(Build.ArtifactStagingDirectory)/bin/**/*'
+    assets: |
+      $(Build.ArtifactStagingDirectory)/bin/**/*.zip
+      $(Build.ArtifactStagingDirectory)/bin/**/*.deb
     isDraft: true
     addChangeLog: false

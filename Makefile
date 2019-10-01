@@ -28,6 +28,7 @@ ext = $(word 3, $(temp))
 
 $(PLATFORMS):
 	GOARCH=$(arch) GOOS=$(os) go build -ldflags "-X main.csheetVersion=$(GIT_TAG) -X main.csheetRevision=$(GIT_SHORT_REV)" -o bin/$(os)_$(arch)/csheet$(ext) csheet.go
+	zip bin/csheet_$(os)_$(arch).zip bin/$(os)_$(arch)/csheet$(ext)
 
 DEB_PKG_ROOT = bin/debian_amd64/packageroot
 DEB_INSTALL_DIR = /usr/bin
