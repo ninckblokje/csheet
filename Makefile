@@ -1,4 +1,4 @@
-PLATFORMS = linux/amd64/ windows/amd64/.exe
+PLATFORMS = linux/amd64/ windows/amd64/.exe freebsd/amd64/
 
 GIT_SHORT_REV := $(shell git rev-parse --short HEAD)
 GIT_TAG := $(shell git describe --tags)
