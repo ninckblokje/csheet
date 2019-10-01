@@ -16,7 +16,8 @@ build:
 	go build csheet.go
 
 dependencies:
-	go get -d
+	go mod download
+	go mod verify
 
 release: clean dependencies $(PLATFORMS)
 
