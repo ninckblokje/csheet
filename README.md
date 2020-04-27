@@ -1,3 +1,5 @@
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/ninckblokje/csheet) 
+
 # csheet
 
 This is a small app written in Go (my first Go app) for reading code cheat sheets from a Markdown document. `csheet` is [licensed](LICENSE) under the BSD-2-Clause.
