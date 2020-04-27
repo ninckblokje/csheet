@@ -1,0 +1,5 @@
+tasks:
+  - init: make clean && make dependencies && go build ./... && go test ./...
+    command: go run
+image:
+  file: .gitpod.Dockerfile
