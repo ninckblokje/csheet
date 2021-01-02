@@ -81,7 +81,8 @@ Usage of csheet:
   -c    Copy result to clipboard
   -e    Open editor using $EDITOR
   -f string
-        Cheat sheet Mardown file
+        Cheat sheet Markdown file
+  -h    Print help
   -l    Show all possible entries
   -q    No output
   -v    Display version

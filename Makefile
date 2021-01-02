@@ -19,7 +19,15 @@ dependencies:
 	go mod download
 	go mod verify
 
+install:
+	@install -m 0755 csheet /usr/local/bin/csheet
+	@install -m 0644 docs/csheet.1 /usr/local/man/man1/csheet.1
+
 release: clean dependencies $(PLATFORMS)
+
+uninstall:
+	@rm /usr/local/bin/csheet
+	@rm /usr/local/man/man1/csheet.1
 
 temp = $(subst /, ,$@)
 os = $(word 1, $(temp))
@@ -32,10 +40,14 @@ $(PLATFORMS):
 
 DEB_PKG_ROOT = bin/debian_amd64/packageroot
 DEB_INSTALL_DIR = /usr/bin
+DEB_MAN_DIR = /usr/share/man
 
 release-debian: clean dependencies linux/amd64/
-	mkdir -p $(DEB_PKG_ROOT)$(DEB_INSTALL_DIR)
-	mkdir -p $(DEB_PKG_ROOT)/DEBIAN
-	cat pkg/DEBIAN/control | sed s/GIT_TAG/$(GIT_TAG)/g > $(DEB_PKG_ROOT)/DEBIAN/control
-	cp bin/linux_amd64/csheet $(DEB_PKG_ROOT)$(DEB_INSTALL_DIR)
-	dpkg-deb -b $(DEB_PKG_ROOT) bin/debian_amd64/csheet_$(GIT_TAG)_amd64.deb
+	@mkdir -p $(DEB_PKG_ROOT)$(DEB_INSTALL_DIR)
+	@mkdir -p $(DEB_PKG_ROOT)$(DEB_MAN_DIR)/man1
+	@mkdir -p $(DEB_PKG_ROOT)/DEBIAN
+	@cat pkg/DEBIAN/control | sed s/GIT_TAG/$(GIT_TAG)/g > $(DEB_PKG_ROOT)/DEBIAN/control
+	@cp bin/linux_amd64/csheet $(DEB_PKG_ROOT)$(DEB_INSTALL_DIR)
+	@cp docs/csheet.1 $(DEB_PKG_ROOT)$(DEB_MAN_DIR)/man1
+	@gzip $(DEB_PKG_ROOT)$(DEB_MAN_DIR)/man1/csheet.1
+	@dpkg-deb -b $(DEB_PKG_ROOT) bin/debian_amd64/csheet_$(GIT_TAG)_amd64.deb

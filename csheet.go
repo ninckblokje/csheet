@@ -189,8 +189,9 @@ func printUsage() {
 	fmt.Println("-c        : Copy result to clipboard")
 	fmt.Println("-e        : Open editor using $EDITOR")
 	fmt.Println("-f [FILE] : Specifies the Markdown file to read")
+	fmt.Println("-h        : Print help")
 	fmt.Println("-l        : Show all possible entries")
-	fmt.Println("-q        : No output")
+	fmt.Println("-q        : No output, useful with -c")
 	fmt.Println("-v        : Shows the versions")
 }
 
