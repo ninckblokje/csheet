@@ -1,7 +1,9 @@
-PLATFORMS = linux/amd64/ windows/amd64/.exe freebsd/amd64/
+PLATFORMS = linux/amd64/ windows/amd64/.exe freebsd/amd64/ openbsd/amd64/ openbsd/arm64/
 
 GIT_SHORT_REV := $(shell git rev-parse --short HEAD)
 GIT_TAG := $(shell git describe --tags)
+
+.DEFAULT_GOAL := build-with-dependencies
 
 ifeq ($(OS),Windows_NT)
 	RM_CMD := cmd.exe /c 'if exist "bin" rmdir /S /Q "bin"'
@@ -14,6 +16,8 @@ clean:
 
 build:
 	go build csheet.go
+
+build-with-dependencies: dependencies build
 
 dependencies:
 	go mod download
