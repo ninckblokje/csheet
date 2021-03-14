@@ -8,3 +8,6 @@
 bin/
 csheet.exe
 csheet
+
+## packages
+!/pkg/OPENBSD/productivity/csheet
