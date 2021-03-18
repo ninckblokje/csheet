@@ -23,6 +23,8 @@ MODGO_VERSION =         ${VERSION}
 MODGO_MODULES =         github.com/atotto/clipboard v0.1.2
 MODGO_MODFILES =        github.com/atotto/clipboard v0.1.2
 
+WANTLIB +=              c pthread
+
 WRKSRC = 		${WRKDIR}/${PKGNAME}
 
 ALL_TARGET =		github.com/ninckblokje/csheet
