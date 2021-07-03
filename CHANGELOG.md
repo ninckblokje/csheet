@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.9 - 2021-07-03
+
+- Updated dependencies
+- FreeBSD and Linux arm64 support
+
+## 1.8 - 2021-04-16
+
+Mostly technical changes:
+- OpenBSD support
+- GitPod
+- man page
+
 ## 1.7 - 2019-10-01
 
 ### Added
