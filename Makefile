@@ -42,16 +42,27 @@ $(PLATFORMS):
 	GOARCH=$(arch) GOOS=$(os) go build -ldflags "-X main.csheetVersion=$(GIT_TAG) -X main.csheetRevision=$(GIT_SHORT_REV)" -o bin/$(os)_$(arch)/csheet$(ext) csheet.go
 	zip -j bin/$(os)_$(arch)/csheet_$(os)_$(arch).zip bin/$(os)_$(arch)/csheet$(ext)
 
-DEB_PKG_ROOT = bin/debian_amd64/packageroot
+DEB_PKG_ROOT_AMD64 = bin/debian_amd64/packageroot
+DEB_PKG_ROOT_ARM64 = bin/debian_arm64/packageroot
 DEB_INSTALL_DIR = /usr/bin
 DEB_MAN_DIR = /usr/share/man
 
-release-debian: clean dependencies linux/amd64/
-	@mkdir -p $(DEB_PKG_ROOT)$(DEB_INSTALL_DIR)
-	@mkdir -p $(DEB_PKG_ROOT)$(DEB_MAN_DIR)/man1
-	@mkdir -p $(DEB_PKG_ROOT)/DEBIAN
-	@cat pkg/DEBIAN/control | sed s/GIT_TAG/$(GIT_TAG)/g > $(DEB_PKG_ROOT)/DEBIAN/control
-	@cp bin/linux_amd64/csheet $(DEB_PKG_ROOT)$(DEB_INSTALL_DIR)
-	@cp docs/csheet.1 $(DEB_PKG_ROOT)$(DEB_MAN_DIR)/man1
-	@gzip $(DEB_PKG_ROOT)$(DEB_MAN_DIR)/man1/csheet.1
-	@dpkg-deb -b $(DEB_PKG_ROOT) bin/debian_amd64/csheet_$(GIT_TAG)_amd64.deb
+release-debian-amd64: clean dependencies linux/amd64/
+	@mkdir -p $(DEB_PKG_ROOT_AMD64)$(DEB_INSTALL_DIR)
+	@mkdir -p $(DEB_PKG_ROOT_AMD64)$(DEB_MAN_DIR)/man1
+	@mkdir -p $(DEB_PKG_ROOT_AMD64)/DEBIAN
+	@cat pkg/DEBIAN/control | sed s/GIT_TAG/$(GIT_TAG)/g > $(DEB_PKG_ROOT_AMD64)/DEBIAN/control
+	@cp bin/linux_amd64/csheet $(DEB_PKG_ROOT_AMD64)$(DEB_INSTALL_DIR)
+	@cp docs/csheet.1 $(DEB_PKG_ROOT_AMD64)$(DEB_MAN_DIR)/man1
+	@gzip $(DEB_PKG_ROOT_AMD64)$(DEB_MAN_DIR)/man1/csheet.1
+	@dpkg-deb -b $(DEB_PKG_ROOT_AMD64) bin/debian_amd64/csheet_$(GIT_TAG)_amd64.deb
+
+release-debian-arm64: clean dependencies linux/arm64/
+	@mkdir -p $(DEB_PKG_ROOT_ARM64)$(DEB_INSTALL_DIR)
+	@mkdir -p $(DEB_PKG_ROOT_ARM64)$(DEB_MAN_DIR)/man1
+	@mkdir -p $(DEB_PKG_ROOT_ARM64)/DEBIAN
+	@cat pkg/DEBIAN/control | sed s/GIT_TAG/$(GIT_TAG)/g > $(DEB_PKG_ROOT_ARM64)/DEBIAN/control
+	@cp bin/linux_arm64/csheet $(DEB_PKG_ROOT_ARM64)$(DEB_INSTALL_DIR)
+	@cp docs/csheet.1 $(DEB_PKG_ROOT_ARM64)$(DEB_MAN_DIR)/man1
+	@gzip $(DEB_PKG_ROOT_ARM64)$(DEB_MAN_DIR)/man1/csheet.1
+	@dpkg-deb -b $(DEB_PKG_ROOT_ARM64) bin/debian_arm64/csheet_$(GIT_TAG)_arm64.deb
