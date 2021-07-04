@@ -51,7 +51,7 @@ release-debian-amd64: clean dependencies linux/amd64/
 	@mkdir -p $(DEB_PKG_ROOT_AMD64)$(DEB_INSTALL_DIR)
 	@mkdir -p $(DEB_PKG_ROOT_AMD64)$(DEB_MAN_DIR)/man1
 	@mkdir -p $(DEB_PKG_ROOT_AMD64)/DEBIAN
-	@cat pkg/DEBIAN/control | sed s/GIT_TAG/$(GIT_TAG)/g > $(DEB_PKG_ROOT_AMD64)/DEBIAN/control
+	@cat pkg/DEBIAN/control | sed s/GIT_TAG/$(GIT_TAG)/g | sed s/any/amd64/g > $(DEB_PKG_ROOT_AMD64)/DEBIAN/control
 	@cp bin/linux_amd64/csheet $(DEB_PKG_ROOT_AMD64)$(DEB_INSTALL_DIR)
 	@cp docs/csheet.1 $(DEB_PKG_ROOT_AMD64)$(DEB_MAN_DIR)/man1
 	@gzip $(DEB_PKG_ROOT_AMD64)$(DEB_MAN_DIR)/man1/csheet.1
@@ -61,7 +61,7 @@ release-debian-arm64: clean dependencies linux/arm64/
 	@mkdir -p $(DEB_PKG_ROOT_ARM64)$(DEB_INSTALL_DIR)
 	@mkdir -p $(DEB_PKG_ROOT_ARM64)$(DEB_MAN_DIR)/man1
 	@mkdir -p $(DEB_PKG_ROOT_ARM64)/DEBIAN
-	@cat pkg/DEBIAN/control | sed s/GIT_TAG/$(GIT_TAG)/g > $(DEB_PKG_ROOT_ARM64)/DEBIAN/control
+	@cat pkg/DEBIAN/control | sed s/GIT_TAG/$(GIT_TAG)/g | sed s/any/arm64/g > $(DEB_PKG_ROOT_ARM64)/DEBIAN/control
 	@cp bin/linux_arm64/csheet $(DEB_PKG_ROOT_ARM64)$(DEB_INSTALL_DIR)
 	@cp docs/csheet.1 $(DEB_PKG_ROOT_ARM64)$(DEB_MAN_DIR)/man1
 	@gzip $(DEB_PKG_ROOT_ARM64)$(DEB_MAN_DIR)/man1/csheet.1
