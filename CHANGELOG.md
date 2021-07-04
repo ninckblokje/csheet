@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.9.1 - 2021-07-04
+
+- Debian ARM64 package
+- Go version numbering
+
 ## 1.9 - 2021-07-03
 
 - Updated dependencies

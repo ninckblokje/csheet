@@ -1,7 +1,7 @@
 PLATFORMS = linux/amd64/ linux/arm64/ windows/amd64/.exe freebsd/amd64/ freebsd/arm64 openbsd/amd64/ openbsd/arm64/
 
 GIT_SHORT_REV := $(shell git rev-parse --short HEAD)
-GIT_TAG := $(shell git describe --tags)
+GIT_TAG := $(shell git describe --tags | sed s/v//g)
 
 .DEFAULT_GOAL := build-with-dependencies
 
