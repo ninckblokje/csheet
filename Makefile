@@ -23,6 +23,10 @@ dependencies:
 	go mod download
 	go mod verify
 
+docker-release:
+	@docker build --no-cache -f Dockerfile.build -t ninckblokje/csheet-build:latest .
+	@docker run --rm -v $${PWD}:/app ninckblokje/csheet-build:latest
+
 install:
 	@install -m 0755 csheet /usr/local/bin/csheet
 	@install -m 0644 docs/csheet.1 /usr/local/man/man1/csheet.1
