@@ -39,7 +39,7 @@ arch = $(word 2, $(temp))
 ext = $(word 3, $(temp))
 
 $(PLATFORMS):
-	GOARCH=$(arch) GOOS=$(os) go build -ldflags "-X main.csheetVersion=$(GIT_TAG) -X main.csheetRevision=$(GIT_SHORT_REV)" -o bin/$(os)_$(arch)/csheet$(ext) csheet.go
+	GOARCH=$(arch) GOOS=$(os) go build -trimpath -ldflags "-X main.csheetVersion=$(GIT_TAG) -X main.csheetRevision=$(GIT_SHORT_REV) -buildid=" -o bin/$(os)_$(arch)/csheet$(ext) csheet.go
 	zip -j bin/$(os)_$(arch)/csheet_$(os)_$(arch).zip bin/$(os)_$(arch)/csheet$(ext)
 
 DEB_PKG_ROOT_AMD64 = bin/debian_amd64/packageroot
