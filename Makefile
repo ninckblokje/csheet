@@ -59,7 +59,7 @@ release-debian-amd64: clean dependencies linux/amd64/
 	@cp bin/linux_amd64/csheet $(DEB_PKG_ROOT_AMD64)$(DEB_INSTALL_DIR)
 	@cp docs/csheet.1 $(DEB_PKG_ROOT_AMD64)$(DEB_MAN_DIR)/man1
 	@gzip $(DEB_PKG_ROOT_AMD64)$(DEB_MAN_DIR)/man1/csheet.1
-	@dpkg-deb -b $(DEB_PKG_ROOT_AMD64) bin/debian_amd64/csheet_$(GIT_TAG)_amd64.deb
+	@dpkg-deb -Zxz -b $(DEB_PKG_ROOT_AMD64) bin/debian_amd64/csheet_$(GIT_TAG)_amd64.deb
 
 release-debian-arm64: clean dependencies linux/arm64/
 	@mkdir -p $(DEB_PKG_ROOT_ARM64)$(DEB_INSTALL_DIR)
@@ -69,4 +69,4 @@ release-debian-arm64: clean dependencies linux/arm64/
 	@cp bin/linux_arm64/csheet $(DEB_PKG_ROOT_ARM64)$(DEB_INSTALL_DIR)
 	@cp docs/csheet.1 $(DEB_PKG_ROOT_ARM64)$(DEB_MAN_DIR)/man1
 	@gzip $(DEB_PKG_ROOT_ARM64)$(DEB_MAN_DIR)/man1/csheet.1
-	@dpkg-deb -b $(DEB_PKG_ROOT_ARM64) bin/debian_arm64/csheet_$(GIT_TAG)_arm64.deb
+	@dpkg-deb -Zxz -b $(DEB_PKG_ROOT_ARM64) bin/debian_arm64/csheet_$(GIT_TAG)_arm64.deb
