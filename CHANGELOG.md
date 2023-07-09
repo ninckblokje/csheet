@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.11.0 - 2023-07-09
+
+- Upgrade to Go 1.20
+- Windows ARM64 binary
+- Devcontainer improvements
+- Added Dependabot config
+
+## 1.10.0 - 2022-11-02
+
+- Upgrade to Go 1.17
+- Default DEB compression
+
 ## 1.9.1 - 2021-07-04
 
 - Debian ARM64 package
