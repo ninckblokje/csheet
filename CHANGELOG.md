@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.1 - 2023-07-09
+
+- Dockerbuild to 1.20
+
 ## 1.11.0 - 2023-07-09
 
 - Upgrade to Go 1.20
