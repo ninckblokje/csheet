@@ -199,6 +199,8 @@ func printVersion() {
 	fmt.Printf("csheet version %s, revision %s", csheetVersion, csheetRevision)
 	fmt.Println("")
 	fmt.Println("See: https://github.com/ninckblokje/csheet")
+	fmt.Println("")
+	fmt.Println("For my kids, L&M")
 }
 
 func readCode(r *bufio.Reader) []string {
