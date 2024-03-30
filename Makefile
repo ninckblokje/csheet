@@ -1,4 +1,4 @@
-PLATFORMS = linux/amd64/ linux/arm64/ windows/amd64/.exe windows/arm64/.exe freebsd/amd64/ freebsd/arm64 openbsd/amd64/ openbsd/arm64/
+PLATFORMS = linux/amd64/ linux/arm64/ windows/amd64/.exe windows/arm64/.exe freebsd/amd64/ freebsd/arm64 openbsd/amd64/ openbsd/arm64/ darwin/amd64/ darwin/arm64
 
 GIT_SHORT_REV := $(shell git rev-parse --short HEAD)
 GIT_TAG := $(shell git describe --tags | sed s/v//g)

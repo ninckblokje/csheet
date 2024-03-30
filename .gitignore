@@ -11,3 +11,6 @@ csheet
 
 ## packages
 !/pkg/OPENBSD/productivity/csheet
+
+## other
+.DS_Store

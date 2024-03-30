@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.11.3 - 2024-03-30
+
+- Added macOS support
+
+## 1.11.2 - 2023-08-01
+
+- Updated version text
+
 ## 1.11.1 - 2023-07-09
 
 - Dockerbuild to 1.20
