@@ -19,12 +19,6 @@ builds:
     goarch:
       - amd64
       - arm64
-    {{- if eq .IsSnapshot }}
-    ldflags:
-      - -X main.csheetVersion={{.Tag}}
-      - -X main.csheetRevision={{.ShortCommit}}
-      - -buildid=
-    {{- end}}
 
 archives:
   - format: tar.gz
