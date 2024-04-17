@@ -22,20 +22,23 @@ builds:
 
 archives:
   - format: tar.gz
-    # this name template makes the OS and Arch compatible with the results of `uname`.
     name_template: >-
       {{ .ProjectName }}_
       {{- title .Os }}_
       {{- .Arch }}
       {{- if .Arm }}v{{ .Arm }}{{ end }}
-    # use zip for windows archives
     format_overrides:
       - goos: windows
         format: zip
 
-changelog:
-  sort: asc
-  filters:
-    exclude:
-      - "^docs:"
-      - "^test:"
+nfpms:
+  - maintainer: ninckblokje <changjnb at gmail dot com>
+    homepage: https://github.com/ninckblokje/csheet
+    description: Command line tool written in Go for printing cheat sheets from a Markdown document
+    formats:
+      - deb
+    dependencies:
+      - xclip
+    contents:
+      - src: docs/csheet.1
+        dst: /usr/share/man//man1/csheet.1
