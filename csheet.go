@@ -14,8 +14,7 @@ import (
 )
 
 var csheetFile string
-var csheetRevision = "DEV-BUILD"
-var csheetVersion = "DEV-BUILD"
+var version = "DEV-BUILD"
 
 func main() {
 	var clipboardArg = flag.Bool("c", false, "Copy result to clipboard")
@@ -196,7 +195,11 @@ func printUsage() {
 }
 
 func printVersion() {
-	fmt.Printf("csheet version %s, revision %s", csheetVersion, csheetRevision)
+	versionInfo := strings.Split(version, "-")
+	csheetVersion := strings.Join(versionInfo[:len(versionInfo)-1], "-")
+	csheetRevision := versionInfo[len(versionInfo)-1]
+
+	fmt.Printf("csheet version v%s, revision %s", csheetVersion, csheetRevision)
 	fmt.Println("")
 	fmt.Println("See: https://github.com/ninckblokje/csheet")
 	fmt.Println("")

@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+
+version: 1
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+      - freebsd
+      - openbsd
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- .Arch }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    format_overrides:
+      - goos: windows
+        format: zip
+
+nfpms:
+  - maintainer: ninckblokje <changjnb at gmail dot com>
+    homepage: https://github.com/ninckblokje/csheet
+    description: Command line tool written in Go for printing cheat sheets from a Markdown document
+    formats:
+      - deb
+    dependencies:
+      - xclip
+    contents:
+      - src: docs/csheet.1
+        dst: /usr/share/man//man1/csheet.1
