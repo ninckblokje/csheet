@@ -1,4 +1,4 @@
-name: GoReleaser - Snapshot
+name: GoReleaser - Release
 
 on:
     push:
@@ -16,7 +16,7 @@ jobs:
               uses: actions/setup-go@v5
               with:
                   go-version: '1.22'
-            - name: Run GoReleaser - Snapshot
+            - name: Run GoReleaser - Release
               uses: goreleaser/goreleaser-action@v5
               with:
                   distribution: goreleaser
