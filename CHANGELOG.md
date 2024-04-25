@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.11.4 - 2024-04-18
+
+- Replaced Makefile with GoReleaser
+- Added Dependabot
+- Added GitHub Actions workflows
+
 ## 1.11.3 - 2024-03-30
 
 - Added macOS support

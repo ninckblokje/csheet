@@ -7,6 +7,10 @@ before:
   hooks:
     - go mod tidy
 
+release:
+  draft: true
+  replace_existing_draft: true
+
 builds:
   - env:
       - CGO_ENABLED=0
