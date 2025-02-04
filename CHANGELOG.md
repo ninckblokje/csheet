@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.0 - 2025-02-04
+
+- Removed edit function
+
 ## 1.11.4 - 2024-04-18
 
 - Replaced Makefile with GoReleaser
