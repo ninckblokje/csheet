@@ -77,7 +77,6 @@ Help can be printed with `-h`:
 $ csheet -h
 Usage of csheet:
   -c    Copy result to clipboard
-  -e    Open editor using $EDITOR
   -f string
         Cheat sheet Markdown file
   -h    Print help
