@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
 # vim: set ts=2 sw=2 tw=0 fo=cnqoj
 
-version: 1
+version: 2
 
 before:
   hooks:
@@ -30,7 +30,6 @@ archives:
       {{ .ProjectName }}_
       {{- title .Os }}_
       {{- .Arch }}
-      {{- if .Arm }}v{{ .Arm }}{{ end }}
     format_overrides:
       - goos: windows
         format: zip
@@ -46,3 +45,23 @@ nfpms:
     contents:
       - src: docs/csheet.1
         dst: /usr/share/man//man1/csheet.1
+
+snapcrafts:
+  - name: csheet
+    summary: Command line tool written in Go for printing cheat sheets from a Markdown document
+    description: Command line tool written in Go for printing cheat sheets from a Markdown document
+    license: BSD-2-Clause
+    grade: devel
+    confinement: strict
+    publish: true
+    channel_templates:
+      - edge
+
+    apps:
+      csheet:
+        command: bin/csheet
+        plugs: [ 'home', 'personal-files']
+    
+    plugs:
+      personal-files:
+        read: $HOME/csheet.md
