@@ -8,9 +8,12 @@
 bin/
 csheet.exe
 csheet
+csheet-mcp.exe
+csheet-mcp
 
 ## packages
 !/cmd/csheet
+!/cmd/csheet-mcp
 !/internal/csheet
 !/pkg/OPENBSD/productivity/csheet
 
