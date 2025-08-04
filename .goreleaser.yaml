@@ -26,11 +26,28 @@ builds:
       - amd64
       - arm64
       - riscv64
+  - id: csheet-mcp
+    main: ./cmd/csheet-mcp/main.go
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+      - freebsd
+      - openbsd
+    goarch:
+      - amd64
+      - arm64
+      - riscv64
 
 archives:
-  - formats: [ tar.gz ]
+  - id: csheet-archive
+    ids:
+      - csheet
+    formats: [ tar.gz ]
     name_template: >-
-      {{ .ProjectName }}_
+      csheet_
       {{- title .Os }}_
       {{- .Arch }}
       {{- if .Arm }}v{{ .Arm }}{{ end }}
@@ -39,7 +56,10 @@ archives:
         formats: [ zip ]
 
 nfpms:
-  - maintainer: ninckblokje <changjnb at gmail dot com>
+  - id: csheet-nfpms
+    ids:
+      - csheet
+    maintainer: ninckblokje <changjnb at gmail dot com>
     homepage: https://github.com/ninckblokje/csheet
     description: Command line tool written in Go for printing cheat sheets from a Markdown document
     formats:
