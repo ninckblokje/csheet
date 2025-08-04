@@ -12,7 +12,9 @@ release:
   replace_existing_draft: true
 
 builds:
-  - env:
+  - id: csheet
+    main: ./cmd/csheet/main.go
+    env:
       - CGO_ENABLED=0
     goos:
       - linux

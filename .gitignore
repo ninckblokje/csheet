@@ -10,6 +10,8 @@ csheet.exe
 csheet
 
 ## packages
+!/cmd/csheet
+!/internal/csheet
 !/pkg/OPENBSD/productivity/csheet
 
 ## other
