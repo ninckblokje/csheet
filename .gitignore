@@ -19,5 +19,5 @@ csheet-mcp
 
 ## other
 .DS_Store
-
 dist/
+csheet-mcp.log

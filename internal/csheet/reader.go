@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"os/user"
 	"strings"
@@ -21,8 +22,8 @@ func findEntry(fp *os.File, subject string, section string) []string {
 	return nil
 }
 
-func findEntries(fp *os.File) []string {
-	var entries []string
+func findEntries(fp *os.File) []Entry {
+	var entries []Entry
 	var subject *string
 
 	r := bufio.NewReaderSize(fp, 4*1024)
@@ -34,12 +35,15 @@ func findEntries(fp *os.File) []string {
 			tmp := strings.TrimPrefix(s, "## ")
 			subject = &tmp
 		} else if strings.HasPrefix(s, "### ") && subject != nil {
-			entries = append(entries, *subject+" "+strings.TrimPrefix(s, "### "))
+			entries = append(entries, Entry{
+				Subject: *subject,
+				Section: strings.TrimPrefix(s, "### ")})
 		}
 
 		line = readLine(r)
 	}
 
+	log.Printf("Found %d entries", len(entries))
 	return entries
 }
 
@@ -69,7 +73,19 @@ func GetCSheetDir() string {
 	return usr.HomeDir
 }
 
+func GetEntries(csheetFile string) Entries {
+	fp := openFile(csheetFile)
+	defer fp.Close()
+
+	entries := findEntries(fp)
+	return Entries{
+		Entries: entries,
+	}
+}
+
 func openFile(csheetFile string) (fp *os.File) {
+	log.Printf("Opening CSheet file %s\n", csheetFile)
+
 	_, err := os.Stat(csheetFile)
 	if err == nil {
 		fp, err := os.Open(csheetFile)
@@ -90,7 +106,7 @@ func openFile(csheetFile string) (fp *os.File) {
 	}
 }
 
-func PrintEntry(csheetFile string, subject string, section string, copyToClipboard bool, quiet bool) {
+func PrintEntryValue(csheetFile string, subject string, section string, copyToClipboard bool, quiet bool) {
 	fp := openFile(csheetFile)
 	defer fp.Close()
 
@@ -104,24 +120,6 @@ func PrintEntry(csheetFile string, subject string, section string, copyToClipboa
 
 	if copyToClipboard {
 		clipboardEntries := strings.Join(code, "\n")
-		clipboard.WriteAll(clipboardEntries)
-	}
-}
-
-func PrintEntries(csheetFile string, copyToClipboard bool, quiet bool) {
-	fp := openFile(csheetFile)
-	defer fp.Close()
-
-	entries := findEntries(fp)
-
-	if !quiet {
-		for i := 0; i < len(entries); i++ {
-			fmt.Println(entries[i])
-		}
-	}
-
-	if copyToClipboard {
-		clipboardEntries := strings.Join(entries, "\n")
 		clipboard.WriteAll(clipboardEntries)
 	}
 }

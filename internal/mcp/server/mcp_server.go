@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/mark3labs/mcp-go/server"
 	"github.com/ninckblokje/csheet/internal/mcp/tool"
@@ -12,7 +13,8 @@ func CreateServer(version string) *server.MCPServer {
 	s := server.NewMCPServer(
 		"CSheet MCP Server",
 		version,
-		server.WithToolCapabilities(false),
+		server.WithToolCapabilities(true),
+		server.WithLogging(),
 	)
 
 	tool.RegisterTools(s)
@@ -21,7 +23,7 @@ func CreateServer(version string) *server.MCPServer {
 }
 
 func StartStdioServer(s *server.MCPServer) {
-	if err := server.ServeStdio(s); err != nil {
+	if err := server.ServeStdio(s, server.WithErrorLogger(log.Default())); err != nil {
 		fmt.Printf("MCP stdio server error: %v\n", err)
 	}
 }

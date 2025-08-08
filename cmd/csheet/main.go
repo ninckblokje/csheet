@@ -38,7 +38,7 @@ func main() {
 		subject := args[0]
 		section := args[1]
 
-		csheet.PrintEntry(csheetFile, subject, section, *clipboardArg, *quietArg)
+		csheet.PrintEntryValue(csheetFile, subject, section, *clipboardArg, *quietArg)
 	}
 }
 
