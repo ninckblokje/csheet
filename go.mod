@@ -4,7 +4,7 @@ go 1.24
 
 require (
 	github.com/atotto/clipboard v0.1.4
-	github.com/mark3labs/mcp-go v0.37.0
+	github.com/mark3labs/mcp-go v0.38.0
 )
 
 require (

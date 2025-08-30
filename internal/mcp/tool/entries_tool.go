@@ -1,7 +1,10 @@
 package tool
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
+	"fmt"
 	"os"
 
 	"github.com/mark3labs/mcp-go/mcp"
@@ -12,6 +15,12 @@ var CSheetFile string = csheet.GetCSheetDir() + string(os.PathSeparator) + "cshe
 
 func getEntriesHandler(ctx context.Context, request mcp.CallToolRequest, args struct{}) (csheet.Entries, error) {
 	entries := csheet.GetEntries(CSheetFile)
+
+	var w bytes.Buffer
+	json.NewEncoder(&w).Encode(entries)
+	json := w.String()
+	fmt.Println(json)
+
 	return entries, nil
 }
 

@@ -13,6 +13,7 @@ var version = "DEV-BUILD"
 
 func main() {
 	var fileArg = flag.String("f", "", "Cheat sheet Mardown file")
+	var httpServerArg = flag.Bool("s", false, "Enable SSE server for live updates")
 
 	flag.Parse()
 
@@ -30,5 +31,10 @@ func main() {
 	log.Default()
 
 	mcpServer := server.CreateServer(version)
-	server.StartStdioServer(mcpServer)
+
+	if *httpServerArg {
+		server.StartHttpServer(mcpServer)
+	} else {
+		server.StartStdioServer(mcpServer)
+	}
 }

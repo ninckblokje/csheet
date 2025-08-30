@@ -1,0 +1,66 @@
+POST http://localhost:8080/mcp
+Accept: application/json
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "initialize",
+    "params": {
+        "protocolVersion": "2025-06-18",
+        "capabilities": {
+            "tools": {}
+        },
+        "clientInfo": {
+            "name": "test",
+            "version": "1.0.0"
+        }
+    }
+}
+
+###
+
+POST http://localhost:8080/mcp
+Accept: application/json
+Content-Type: application/json
+Mcp-Session-Id: mcp-session-4d81db04-6787-4abf-bd12-1f5785a48025
+
+{
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "logging/setLevel",
+    "params": {
+        "level": "debug"
+    }
+}
+
+###
+
+POST http://localhost:8080/mcp
+Accept: application/json
+Content-Type: application/json
+Mcp-Session-Id: mcp-session-4d81db04-6787-4abf-bd12-1f5785a48025
+
+{
+    "jsonrpc": "2.0",
+    "id": 3,
+    "method": "tools/list",
+    "params": {}
+}
+
+###
+
+POST http://localhost:8080/mcp
+Accept: application/json
+Content-Type: application/json
+Mcp-Session-Id: mcp-session-4d81db04-6787-4abf-bd12-1f5785a48025
+
+{
+    "jsonrpc": "2.0",
+    "id": 4,
+    "method": "tools/call",
+    "params": {
+        "name": "getEntries",
+        "arguments": {}
+    }
+}

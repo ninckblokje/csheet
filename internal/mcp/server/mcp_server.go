@@ -27,3 +27,10 @@ func StartStdioServer(s *server.MCPServer) {
 		fmt.Printf("MCP stdio server error: %v\n", err)
 	}
 }
+
+func StartHttpServer(s *server.MCPServer) {
+	httpServer := server.NewStreamableHTTPServer(s)
+	if err := httpServer.Start(":8080"); err != nil {
+		fmt.Printf("MCP stdio server error: %v\n", err)
+	}
+}
