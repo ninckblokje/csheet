@@ -83,6 +83,14 @@ func GetEntries(csheetFile string) Entries {
 	}
 }
 
+func GetEntry(csheetFile string, subject string, section string) []string {
+	fp := openFile(csheetFile)
+	defer fp.Close()
+
+	entry := findEntry(fp, subject, section)
+	return entry
+}
+
 func openFile(csheetFile string) (fp *os.File) {
 	log.Printf("Opening CSheet file %s\n", csheetFile)
 

@@ -1,0 +1,9 @@
+{
+    "inputs": [],
+    "servers": {
+        "local-csheet": {
+            "command": "./csheet-mcp",
+            "type": "stdio"
+        }
+    }
+}

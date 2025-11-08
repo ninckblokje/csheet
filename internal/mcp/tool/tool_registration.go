@@ -7,4 +7,5 @@ import (
 
 func RegisterTools(mcpServer *server.MCPServer) {
 	mcpServer.AddTool(getEntriesTool(), mcp.NewStructuredToolHandler(getEntriesHandler))
+	mcpServer.AddTool(getEntryTool(), mcp.NewStructuredToolHandler(getEntryHandler))
 }

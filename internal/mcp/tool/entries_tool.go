@@ -33,3 +33,29 @@ func getEntriesTool() mcp.Tool {
 		mcp.WithOutputSchema[csheet.Entries](),
 	)
 }
+
+func getEntryHandler(ctx context.Context, request mcp.CallToolRequest, args struct{}) ([]string, error) {
+	subject, _ := request.RequireString("subject")
+	section, _ := request.RequireString("section")
+
+	entry := csheet.GetEntry(CSheetFile, subject, section)
+
+	return entry, nil
+}
+
+func getEntryTool() mcp.Tool {
+	return mcp.NewTool(
+		"getEntryTool",
+		mcp.WithDescription("Get a single entry from the cheat sheet"),
+		mcp.WithDestructiveHintAnnotation(false),
+		mcp.WithReadOnlyHintAnnotation(true),
+		mcp.WithString("subject",
+			mcp.Required(),
+			mcp.Description("The subject of the entry to retrieve"),
+		),
+		mcp.WithString("section",
+			mcp.Required(),
+			mcp.Description("The section of the entry to retrieve"),
+		),
+	)
+}
