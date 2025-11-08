@@ -23,7 +23,7 @@ Content-Type: application/json
 POST http://localhost:8080/mcp
 Accept: application/json
 Content-Type: application/json
-Mcp-Session-Id: mcp-session-4d81db04-6787-4abf-bd12-1f5785a48025
+Mcp-Session-Id: mcp-session-2734cded-878d-479b-b07c-0e84322ef387
 
 {
     "jsonrpc": "2.0",
@@ -39,7 +39,7 @@ Mcp-Session-Id: mcp-session-4d81db04-6787-4abf-bd12-1f5785a48025
 POST http://localhost:8080/mcp
 Accept: application/json
 Content-Type: application/json
-Mcp-Session-Id: mcp-session-4d81db04-6787-4abf-bd12-1f5785a48025
+Mcp-Session-Id: mcp-session-2734cded-878d-479b-b07c-0e84322ef387
 
 {
     "jsonrpc": "2.0",
@@ -53,7 +53,7 @@ Mcp-Session-Id: mcp-session-4d81db04-6787-4abf-bd12-1f5785a48025
 POST http://localhost:8080/mcp
 Accept: application/json
 Content-Type: application/json
-Mcp-Session-Id: mcp-session-4d81db04-6787-4abf-bd12-1f5785a48025
+Mcp-Session-Id: mcp-session-2734cded-878d-479b-b07c-0e84322ef387
 
 {
     "jsonrpc": "2.0",
