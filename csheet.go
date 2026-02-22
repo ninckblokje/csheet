@@ -35,14 +35,32 @@ func main() {
 
 	if *versionArg {
 		printVersion()
-	} else if *listArg {
+	} else if *listArg && len(args) == 0 {
 		printEntries(*clipboardArg, *quietArg)
+	} else if *listArg && len(args) == 1 {
+		subject := args[0]
+
+		printEntriesForSubject(*clipboardArg, *quietArg, subject)
 	} else {
 		subject := args[0]
 		section := args[1]
 
 		printEntry(subject, section, *clipboardArg, *quietArg)
 	}
+}
+
+func filterEntries(entries []string, subject string) []string {
+	var filteredEntries []string
+
+	for i := 0; i < len(entries); i++ {
+		entry := entries[i]
+
+		if strings.HasPrefix(entry, subject+" ") {
+			filteredEntries = append(filteredEntries, entry)
+		}
+	}
+
+	return filteredEntries
 }
 
 func findEntry(fp *os.File, subject string, section string) []string {
@@ -160,15 +178,33 @@ func printEntries(copyToClipboard bool, quiet bool) {
 	}
 }
 
+func printEntriesForSubject(copyToClipboard bool, quiet bool, subject string) {
+	fp := openFile()
+	defer fp.Close()
+
+	entries := filterEntries(findEntries(fp), subject)
+
+	if !quiet {
+		for i := 0; i < len(entries); i++ {
+			fmt.Println(entries[i])
+		}
+	}
+
+	if copyToClipboard {
+		clipboardEntries := strings.Join(entries, "\n")
+		clipboard.WriteAll(clipboardEntries)
+	}
+}
+
 func printUsage() {
 	fmt.Println("Usage: csheet { OPTIONS } [SUBJECT] [SECTION]")
 	fmt.Println("Options:")
-	fmt.Println("-c        : Copy result to clipboard")
-	fmt.Println("-f [FILE] : Specifies the Markdown file to read")
-	fmt.Println("-h        : Print help")
-	fmt.Println("-l        : Show all possible entries")
-	fmt.Println("-q        : No output, useful with -c")
-	fmt.Println("-v        : Shows the versions")
+	fmt.Println("-c           : Copy result to clipboard")
+	fmt.Println("-f [FILE]    : Specifies the Markdown file to read")
+	fmt.Println("-h           : Print help")
+	fmt.Println("-l {SUBJECT} : Show all possible entries")
+	fmt.Println("-q           : No output, useful with -c")
+	fmt.Println("-v           : Shows the versions")
 }
 
 func printVersion() {
@@ -227,7 +263,7 @@ func validateArgs(fileArg *string, listArg *bool, versionArg *bool, args []strin
 	if *versionArg {
 		// ok
 		return
-	} else if *listArg {
+	} else if *listArg && len(args) <= 1 {
 		// ok
 		return
 	} else if len(args) == 2 {

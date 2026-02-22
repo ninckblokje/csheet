@@ -41,6 +41,13 @@ $ csheet -l
 subject section
 ````
 
+It is also possible to list only the sections for a specific subject. Use `-l {SUBJECT}` for that:
+
+````
+$ csheet -l subject
+subject section
+````
+
 ## Other options
 
 You can specify the file using `-f`
@@ -75,11 +82,10 @@ Help can be printed with `-h`:
 
 ````
 $ csheet -h
-Usage of csheet:
+Usage of ./csheet:
   -c    Copy result to clipboard
   -f string
-        Cheat sheet Markdown file
-  -h    Print help
+        Cheat sheet Mardown file
   -l    Show all possible entries
   -q    No output
   -v    Display version
