@@ -13,6 +13,7 @@ import (
 )
 
 var csheetFile string
+var commit = "test"
 var version = "DEV-BUILD"
 
 func main() {
@@ -172,11 +173,7 @@ func printUsage() {
 }
 
 func printVersion() {
-	versionInfo := strings.Split(version, "-")
-	csheetVersion := strings.Join(versionInfo[:len(versionInfo)-1], "-")
-	csheetRevision := versionInfo[len(versionInfo)-1]
-
-	fmt.Printf("csheet version v%s, revision %s", csheetVersion, csheetRevision)
+	fmt.Printf("csheet version v%s, revision %s", version, commit)
 	fmt.Println("")
 	fmt.Println("See: https://github.com/ninckblokje/csheet")
 	fmt.Println("")
