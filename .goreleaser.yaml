@@ -12,7 +12,8 @@ release:
   replace_existing_draft: true
 
 builds:
-  - env:
+  - main: ./cmd/csheet
+    env:
       - CGO_ENABLED=0
     goos:
       - linux
