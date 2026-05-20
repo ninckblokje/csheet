@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - directory: "/"
+    package-ecosystem: "devcontainers"
+    schedule:
+      interval: weekly
+  - directory: /
+    package-ecosystem: "gomod"
+    schedule:
+      interval: weekly

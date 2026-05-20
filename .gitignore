@@ -1,0 +1,18 @@
+## IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+## Go
+bin/
+csheet.exe
+csheet
+
+## packages
+!/pkg/OPENBSD/productivity/csheet
+
+## other
+.DS_Store
+
+dist/

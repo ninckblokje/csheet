@@ -1,0 +1,84 @@
+.Dd $Mdocdate: January 3 2021 $
+.Dt CSHEET 1
+.Os
+.Sh NAME
+.Nm csheet
+.Nd a small app written in Go (my first Go app) for reading code cheat sheets from a Markdown document.
+.Sh SYNOPSIS
+.Op Fl c
+.Op Fl e
+.Op Fl f Ar FILE
+.Op Fl l
+.Op Fl q
+.Op Fl v
+.Op SUBJECT
+.Op SECTION
+.Sh OPTIONS
+.Bl -tag -width Ds
+.It Op Fl c
+copy result to clipboard
+.It Op Fl e
+open editor using $EDITOR
+.It Op Fl f
+cheat sheet Markdown file
+.It Op Fl l
+show all possible entries
+.It Op Fl q
+no output, useful with -c
+.It Op Fl v
+display version
+.It Op SUBJECT
+heading 2 (##) to search for
+.It Op SECTION
+heading 3 (###) to search for
+.Sh DESCRIPTION
+.Nm
+is a small app written in Go (my first Go app) for reading code cheat sheets from a Markdown document.
+.Pp
+.Nm
+will open the file 
+.Ql ~/csheet.md
+(and create it), but this can be overruled by adding 
+.Op Fl f Ar FILE
+to specify the Markdown file.
+.Pp
+.Nm
+will use the following Markdown structure:
+.Bd -literal
+# csheet
+
+## subject
+
+### section
+
+````
+Stuff to remember
+````
+
+.Ed
+.Nm
+will print the content enclosed by four backticks.
+.Sh EXAMPLES
+.Ss Get single section
+.Bd -unfilled
+.Nm Ar subject Ar section
+Stuff to remember
+.Ed
+.Ss List all subjects and sections
+.Bd -unfilled
+.Nm Fl l
+subject section
+.Ed
+.Ss Copy to clipboard without output
+.Bd -unfilled
+.Nm Fl c Fl q Ar subject Ar section
+.Ed
+.Ss Specify a different file
+.Bd -unfilled
+.Nm Fl f Ar ~/other.md Ar subject Ar section
+Other stuff to remember
+.Ed
+.Sh AUTHORS
+.Nm
+was written by
+.An ninckblokje Aq Lk https://github.com/ninckblokje/csheet
