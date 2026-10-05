@@ -12,9 +12,27 @@ release:
   replace_existing_draft: true
 
 builds:
-  - env:
+  - id: csheet
+    binary: csheet
+    env:
       - CGO_ENABLED=0
     main: ./cmd/csheet
+    goos:
+      - linux
+      - windows
+      - darwin
+      - freebsd
+      - openbsd
+    goarch:
+      - amd64
+      - arm64
+      - riscv64
+
+  - id: csheet-mcp
+    binary: csheet-mcp
+    env:
+      - CGO_ENABLED=0
+    main: ./cmd/csheet-mcp
     goos:
       - linux
       - windows
