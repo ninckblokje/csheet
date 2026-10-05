@@ -1,0 +1,60 @@
+.Dd $Mdocdate: October 5 2026 $
+.Dt CSHEET-MCP 1
+.Os
+.Sh NAME
+.Nm csheet-mcp
+.Nd Model Context Protocol server for reading code cheat sheets from a Markdown document.
+.Sh SYNOPSIS
+.Nm
+.Op Fl f Ar FILE
+.Op Fl v
+.Sh OPTIONS
+.Bl -tag -width Ds
+.It Fl f Ar FILE
+cheat sheet Markdown file
+.It Fl v
+display version
+.El
+.Sh DESCRIPTION
+.Nm
+is a Model Context Protocol (MCP) server which exposes the cheat sheets read by
+.Xr csheet 1
+to MCP clients. It communicates using JSON-RPC over standard input and output.
+.Pp
+By default
+.Ql ~/csheet.md
+is read, but this can be overruled by adding
+.Op Fl f Ar FILE
+to specify the Markdown file. The file is not created when it does not exist.
+.Pp
+The following tools are provided:
+.Bl -tag -width Ds
+.It list_entries
+list all entries as
+.Ql subject section ,
+optionally filtered by the argument
+.Ar subject
+.It get_entry
+return the content of the entry identified by the arguments
+.Ar subject
+and
+.Ar section
+.El
+.Sh EXAMPLES
+.Ss Configure an MCP client
+.Bd -literal
+{
+  "mcpServers": {
+    "csheet": {
+      "command": "csheet-mcp",
+      "args": ["-f", "/home/user/other.md"]
+    }
+  }
+}
+.Ed
+.Sh SEE ALSO
+.Xr csheet 1
+.Sh AUTHORS
+.Nm
+was written by
+.An ninckblokje Aq Lk https://github.com/ninckblokje/csheet

@@ -12,9 +12,27 @@ release:
   replace_existing_draft: true
 
 builds:
-  - env:
+  - id: csheet
+    binary: csheet
+    env:
       - CGO_ENABLED=0
     main: ./cmd/csheet
+    goos:
+      - linux
+      - windows
+      - darwin
+      - freebsd
+      - openbsd
+    goarch:
+      - amd64
+      - arm64
+      - riscv64
+
+  - id: csheet-mcp
+    binary: csheet-mcp
+    env:
+      - CGO_ENABLED=0
+    main: ./cmd/csheet-mcp
     goos:
       - linux
       - windows
@@ -38,9 +56,12 @@ archives:
         formats: [ zip ]
 
 nfpms:
-  - maintainer: ninckblokje <changjnb at gmail dot com>
+  - ids:
+      - csheet
+      - csheet-mcp
+    maintainer: ninckblokje <changjnb at gmail dot com>
     homepage: https://github.com/ninckblokje/csheet
-    description: Command line tool written in Go for printing cheat sheets from a Markdown document
+    description: Command line tool and MCP server written in Go for printing cheat sheets from a Markdown document
     formats:
       - deb
     dependencies:
@@ -48,3 +69,5 @@ nfpms:
     contents:
       - src: docs/csheet.1
         dst: /usr/share/man//man1/csheet.1
+      - src: docs/csheet-mcp.1
+        dst: /usr/share/man/man1/csheet-mcp.1
