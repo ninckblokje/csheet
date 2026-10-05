@@ -7,7 +7,7 @@
 ## Go
 bin/
 csheet.exe
-csheet
+/csheet
 
 ## packages
 !/pkg/OPENBSD/productivity/csheet

@@ -4,12 +4,12 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"io"
 	"os"
 	"os/user"
 	"strings"
 
 	"github.com/atotto/clipboard"
+	"github.com/ninckblokje/csheet/internal/csheet"
 )
 
 var csheetFile string
@@ -50,69 +50,6 @@ func main() {
 	}
 }
 
-func filterEntries(entries []string, subject string) []string {
-	var filteredEntries []string
-
-	for i := 0; i < len(entries); i++ {
-		entry := entries[i]
-
-		if strings.HasPrefix(entry, subject+" ") {
-			filteredEntries = append(filteredEntries, entry)
-		}
-	}
-
-	return filteredEntries
-}
-
-func findEntry(fp *os.File, subject string, section string) []string {
-	r := bufio.NewReaderSize(fp, 4*1024)
-	demarcation := "## "
-	if findHeader(r, "## "+subject, nil) && findHeader(r, "### "+section, &demarcation) {
-		return readCode(r)
-	}
-
-	return nil
-}
-
-func findEntries(fp *os.File) []string {
-	var entries []string
-	var subject *string
-
-	r := bufio.NewReaderSize(fp, 4*1024)
-	line := readLine(r)
-	for line != nil {
-		s := *line
-
-		if strings.HasPrefix(s, "## ") {
-			tmp := strings.TrimPrefix(s, "## ")
-			subject = &tmp
-		} else if strings.HasPrefix(s, "### ") && subject != nil {
-			entries = append(entries, *subject+" "+strings.TrimPrefix(s, "### "))
-		}
-
-		line = readLine(r)
-	}
-
-	return entries
-}
-
-func findHeader(r *bufio.Reader, header string, demarcation *string) bool {
-	line := readLine(r)
-	for line != nil {
-		s := *line
-
-		if s == header {
-			return true
-		} else if demarcation != nil && strings.HasPrefix(s, *demarcation) {
-			return false
-		}
-
-		line = readLine(r)
-	}
-
-	return false
-}
-
 func getCSheetDir() string {
 	usr, err := user.Current()
 	if err != nil {
@@ -147,7 +84,7 @@ func printEntry(subject string, section string, copyToClipboard bool, quiet bool
 	fp := openFile()
 	defer fp.Close()
 
-	code := findEntry(fp, subject, section)
+	code := csheet.FindEntry(fp, subject, section)
 
 	if !quiet {
 		for i := 0; i < len(code); i++ {
@@ -165,7 +102,7 @@ func printEntries(copyToClipboard bool, quiet bool) {
 	fp := openFile()
 	defer fp.Close()
 
-	entries := findEntries(fp)
+	entries := csheet.FindEntries(fp)
 
 	if !quiet {
 		for i := 0; i < len(entries); i++ {
@@ -183,7 +120,7 @@ func printEntriesForSubject(copyToClipboard bool, quiet bool, subject string) {
 	fp := openFile()
 	defer fp.Close()
 
-	entries := filterEntries(findEntries(fp), subject)
+	entries := csheet.FilterEntries(csheet.FindEntries(fp), subject)
 
 	if !quiet {
 		for i := 0; i < len(entries); i++ {
@@ -214,46 +151,6 @@ func printVersion() {
 	fmt.Println("See: https://github.com/ninckblokje/csheet")
 	fmt.Println("")
 	fmt.Println("For my kids, L&M")
-}
-
-func readCode(r *bufio.Reader) []string {
-	var code []string
-	var readCode = false
-
-	line := readLine(r)
-	for line != nil {
-		s := *line
-
-		if strings.HasPrefix(s, "````") {
-			readCode = !readCode
-
-			if !readCode {
-				break
-			}
-		} else if readCode {
-			code = append(code, s)
-		}
-
-		line = readLine(r)
-	}
-
-	return code
-}
-
-func readLine(r *bufio.Reader) *string {
-	line, isPrefix, err := r.ReadLine()
-	if isPrefix {
-		panic("buffer size to small")
-	}
-
-	if err == nil {
-		s := string(line)
-		return &s
-	} else if err != io.EOF {
-		panic(err)
-	}
-
-	return nil
 }
 
 func validateArgs(fileArg *string, listArg *bool, versionArg *bool, args []string) {
