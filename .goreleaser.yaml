@@ -69,3 +69,5 @@ nfpms:
     contents:
       - src: docs/csheet.1
         dst: /usr/share/man//man1/csheet.1
+      - src: docs/csheet-mcp.1
+        dst: /usr/share/man/man1/csheet-mcp.1
