@@ -2,6 +2,27 @@
 
 This is a small app written in Go (my first Go app) for reading code cheat sheets from a Markdown document. `csheet` is [licensed](LICENSE) under the BSD-2-Clause.
 
+## Build locally
+
+Run `make` to build both command-line tools. The binaries are written to `bin/csheet` and `bin/csheet-mcp`.
+
+## MCP server
+
+`csheet-mcp` exposes cheat sheet entries to MCP clients over standard input and output. Add a server entry to your MCP client configuration, replacing the example paths with absolute paths on your machine:
+
+```json
+{
+  "mcpServers": {
+    "csheet": {
+      "command": "/absolute/path/to/csheet/bin/csheet-mcp",
+      "args": ["-f", "/absolute/path/to/csheet.md"]
+    }
+  }
+}
+```
+
+The `-f` argument is optional. Without it, the server reads `csheet.md` from your home directory.
+
 ## Cheat sheet
 
 By default `csheet.md` from the users home directory is read, but it is possible to specify a custom file using `-f`.
